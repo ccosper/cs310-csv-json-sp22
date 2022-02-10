@@ -79,19 +79,21 @@ public class Converter {
             
             String[] currentRow = iterator.next();
             
-            for (int i = 0; i < currentRow.length; i++) {
+            for (int i = 0; i < currentRow.length; ) {
                 colHeader.add(currentRow[i]);
-            } 
+                i++;
+                } 
             
             while (iterator.hasNext()) {
                 currentRow = iterator.next();
                 currentData = new JSONArray();
                 rowHeader.add(currentRow[0]);
                 
-                for (int i = 1; i < currentRow.length; i++) {
+                for (int i = 1; i < currentRow.length; ) {
                     
                         int dataStringToInt = Integer.parseInt(currentRow[i]);
                         currentData.add(dataStringToInt);
+                        i++;
                 }               
                 data.add(currentData);
             }
@@ -131,17 +133,19 @@ public class Converter {
             for (int i = 0; i < colHeadersJsonArray.size(); i++) {
                 colHeaders[i] = (String)colHeadersJsonArray.get(i);
             }
+            
             csvWriter.writeNext(colHeaders);
             
-            for (int i = 0; i < rowHeadersJsonArray.size(); i++) {
+            for (int i = 0; i < rowHeadersJsonArray.size();) {
                 JSONArray currentLineOfData = (JSONArray)dataJsonArray.get(i);
                 String[] currentLine = new String[5];
                 
                 currentLine[0] = (String)rowHeadersJsonArray.get(i);
-                
-                for (int j = 0; j < currentLineOfData.size(); j++) {
+                i++;
+                for (int j = 0; j < currentLineOfData.size();) {
                     currentLine[j+1] = Long.toString((long)currentLineOfData.get(j));
-                }
+                    j++;
+                    }
                 
                 csvWriter.writeNext(currentLine);
                  
